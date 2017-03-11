@@ -14,6 +14,7 @@ class HooksController extends Controller
         if(!Auth::check()) {
             return redirect()->to('/');
         }
+
         // Try script
         set_time_limit (1000000);
         $user = Auth::user();
@@ -52,9 +53,27 @@ class HooksController extends Controller
             $comment->save();
         }
 
-        echo "<pre>";
-        var_dump($video);
-        echo "</pre>";
+        // Get id of video inside the live video
+        $ch = curl_init();
+        $url = "https://graph.facebook.com/v2.8/" . $video->fb_id . "?fields=video&access_token=" . $user->fb_token;
+        echo $url;
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $live_vid_id = json_decode(curl_exec($ch), 1)["video"]["id"];
+        curl_close($ch);
+        // Get the source of video
+        $ch = curl_init();
+        $url = "https://graph.facebook.com/v2.8/" . $live_vid_id . "?fields=source&access_token=" . $user->fb_token;
+        echo $url;
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $source = json_decode(curl_exec($ch), 1)["source"];
+        curl_close($ch);
+
+        $video->url = $source;
+        $video->save();
+        //return redirect()->to('/videos/' . $video->id);
+        
     }
 
 }

@@ -133,7 +133,7 @@ class Facebook(object):
             with open(logfile, 'w') as file:
                 json.dump(_rawdata, file, indent=4)
 
-        return str(_rawdata)
+        return json.dumps(_rawdata)
 
 
 # Utility method to convert Graph API timestamps to UNIX timestamps

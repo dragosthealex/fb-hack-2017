@@ -16,10 +16,8 @@ class HooksController extends Controller
         $user = Auth::user();
         $token = $user->fb_token;
         $cmd = "python ../../src/listner.py " . $token;
-        $lol = shell_exec($cmd);
-        echo "<pre>";
-        echo $lol;
-        echo '</pre>';
+        $parsed = json_decode(shell_exec($cmd), 1);
+        
     }
 
 }

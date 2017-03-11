@@ -1,37 +1,6 @@
 {
-    "blockchain": [
-        {
-            "timestamp": 1489258344,
-            "reactions": [],
-            "block_id": 0,
-            "view_count": 0
-        },
-        {
-            "timestamp": 1489258349,
-            "reactions": [],
-            "block_id": 1,
-            "view_count": 0
-        },
-        {
-            "timestamp": 1489258354,
-            "reactions": [],
-            "block_id": 2,
-            "view_count": 0
-        },
-        {
-            "timestamp": 1489258360,
-            "reactions": [],
-            "block_id": 3,
-            "view_count": 0
-        },
-        {
-            "timestamp": 1489258365,
-            "reactions": [],
-            "block_id": 4,
-            "view_count": 0
-        }
-    ],
-    "description": "",
+    "comments": [],
     "video_id": "1291593260917618",
-    "comments": []
+    "blockchain": [],
+    "description": ""
 }

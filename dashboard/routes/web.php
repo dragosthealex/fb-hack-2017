@@ -13,14 +13,16 @@
 Auth::routes();
 Route::get('/login', function() {
     return redirect()->to('/oauth/facebook');
-});
+})->name('login');
 Route::get('/register', function() {
     return redirect()->to('/oauth/facebook');
-});
+})->name('register');
 Route::get('/logout', function() {
     Auth::logout();
     return redirect()->to('/');
-});
+})->name('logout');
+
+
 Route::get('/oauth/{provider}', 'Auth\OAuthController@redirectToProvider');
 Route::get('/oauth/callback/{provider}', 'Auth\OAuthController@handleProviderCallback');
 Route::get('/oauth/success/{provider}', 'Auth\OAuthController@success');

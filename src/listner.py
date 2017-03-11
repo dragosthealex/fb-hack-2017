@@ -35,6 +35,7 @@ class Facebook(object):
     # Read the given config file
     def read_config(self, filename):
         # Read a given config file (json)
+        filename = os.path.dirname(__file__) + '/' + filename
         with open(filename, 'r') as file:
             _config = json.load(file)
             self._url = '{}/{}/'.format(_config['url'], _config['version'])

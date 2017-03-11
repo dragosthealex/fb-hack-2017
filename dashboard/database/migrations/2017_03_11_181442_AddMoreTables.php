@@ -17,10 +17,11 @@ class AddMoreTables extends Migration
         Schema::create('videos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('fb_id');
+            $table->text('description')->nullable();
             $table->unsignedInteger('user_id');
-            $table->longtext('comments');
-            $table->longtext('reactions');
-            $table->string('url');
+            $table->string('url')->nullable();
+            $table->string('started')->nullable();
+            $table->string('finished')->nullable();
             $table->timestamps();
         });
         Schema::create('frames', function (Blueprint $table) {
@@ -29,14 +30,18 @@ class AddMoreTables extends Migration
             $table->string('timestamp');
             $table->integer('view_count');
             $table->longtext('reactions');
+            $table->string('block_id');
+            $table->timestamps();
         });
         Schema::create('comments', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('fb_id');
             $table->unsignedInteger('video_id');
             $table->string('timestamp');
             $table->string('user_fb_id');
             $table->string('user_fb_name');
             $table->longtext('message');
+            $table->timestamps();
         });
     }
 

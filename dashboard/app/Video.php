@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class User extends Model
+class Video extends Model
 {
     /**
      * The table associated with the model.
@@ -13,4 +13,11 @@ class User extends Model
      */
     protected $table = 'videos';
 
+    public function frames() {
+        return $this->hasMany('App\Frame', 'video_id', 'id');
+    }
+
+    public function comments() {
+        return $this->hasMany('App\Comment', 'video_id', 'id');
+    }
 }

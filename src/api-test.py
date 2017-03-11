@@ -7,6 +7,7 @@ import os
 # "https://graph.facebook.com/v2.8/263341274109444/?access_token=<token>"
 #             url            version     any_id       token
 
+# CONSTANTS
 CONFIG_FILE = 'config.json'
 LISTEN_REQUEST = '?fields=reactions{type},live_views'
 COMMEN_REQUEST = '?fields=comments'
@@ -16,6 +17,7 @@ REFRESH_RATE = 5
 
 class Facebook(object):
 
+    # token should be given by sys.argv[1]
     def __init__(self, token=None):
         self._url = None
         self._version = None
@@ -29,6 +31,7 @@ class Facebook(object):
                                                                self._version,
                                                                self._token)
 
+    # Read the given config file
     def read_config(self, filename):
         # Read a given config file (json)
         with open(filename, 'r') as file:
@@ -36,11 +39,13 @@ class Facebook(object):
             self._url = '{}/{}/'.format(_config['url'], _config['version'])
             self._version = _config['version']
 
+    # Set the token if needed
     def set_token(self, token):
         # Set/Overwrite the token
         self._token = token
         self._token_request = TOKEN_FROMAT.format(token)
 
+    # Returns a json response from the Facebook Graph API
     def get(self, id='me', request=''):
         # Return the response from Facebook Graph API
         _response = requests.get(self._url+id+request+self._token_request)
@@ -50,17 +55,20 @@ class Facebook(object):
         else:
             return "ERROR::" + str(_response['error'])
 
+    # Returns True if video status is LIVE, false otherwise
     def get_video_status(self, video_id):
         _response = self.get(video_id, '?fields=status')
         if 'status' in _response:
             return _response['status'] == 'LIVE'
 
+    # Returns a dictionary containing all block related data
     def make_block(self, blockchain, reactions, views):
         return {'block_id': len(blockchain),     # int
                 'timestamp': int(time.time()),   # int
                 'reactions': reactions,          # array dicts
                 'view_count': views}             # int
 
+    # Request *data from a live video until it goes offline
     def listen(self, video_id, logfile='output.payload'):
         _blockchain = []
         _block = None
@@ -114,6 +122,9 @@ class Facebook(object):
         return _payload
 
 if __name__ == '__main__':
+
+    # argv[1] - token
+    # argv[2] - video id
 
     if len(sys.argv) == 3:
         # Take only a token

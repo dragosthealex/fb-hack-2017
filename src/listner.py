@@ -1,6 +1,7 @@
 import requests
 import json
 import time
+import datetime
 import sys
 import os
 
@@ -61,6 +62,11 @@ class Facebook(object):
         if 'status' in _response:
             return _response['status'] == 'LIVE'
 
+    # Returns the latest LIVE video id from the token argv
+    def get_video_id(self):
+        _response = self.get('me/live_videos', '?fields=id&limit=1')
+        return str(_response['data'][0]['id'])
+
     # Returns a dictionary containing all block related data
     def make_block(self, blockchain, reactions, views):
         return {'block_id': len(blockchain),     # int
@@ -106,10 +112,17 @@ class Facebook(object):
         if 'description' in self.get(video_id, '?fields=description').keys():
             _desc = self.get(video_id, '?fields=description')['description']
 
-        _comments = self.get(video_id, COMMEN_REQUEST)['comments']['data']
+        _comments_request = self.get(video_id, COMMEN_REQUEST)
+        _comments = []
+        if 'comments' in _comments_request:
+            _comments = self.get(video_id, COMMEN_REQUEST)['comments']['data']
 
-        # Store everything as a "payload" of blockchain and comments
-        _payload = {'video_id': video_id,
+        # Convert datetime timestamps to unix timestamps for all comments
+        for _comment in _comments:
+            _comment['created_time'] = date_to_unix(_comment['created_time'])
+
+        # Store everything as rawdata of blockchain and comments and metadata
+        _rawdata = {'video_id': video_id,
                     'description': _desc,
                     'blockchain': _blockchain,
                     'comments': _comments}
@@ -117,18 +130,27 @@ class Facebook(object):
         # Log the data
         if logfile is not None:
             with open(logfile, 'w') as file:
-                json.dump(_payload, file, indent=4)
+                json.dump(_rawdata, file, indent=4)
 
-        return _payload
+        return str(_rawdata)
+
+
+# Utility method to convert Graph API timestamps to UNIX timestamps
+def date_to_unix(timedate_string):
+    # Magic
+    timedate_string = timedate_string[:-5]
+    return int(time.mktime(
+        datetime.datetime.strptime(
+            timedate_string, "%Y-%m-%dT%H:%M:%S").timetuple()))
+
 
 if __name__ == '__main__':
 
     # argv[1] - token
     # argv[2] - video id
 
-    if len(sys.argv) == 3:
-        # Take only a token
-        facebook = Facebook(sys.argv[1])
+    # Take only a token
+    facebook = Facebook(sys.argv[1])
 
-        # Take a video id and listen for changes
-        facebook.listen(sys.argv[2])
+    # Take a video id and listen for changes
+    print (facebook.listen(facebook.get_video_id()))

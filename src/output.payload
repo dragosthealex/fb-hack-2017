@@ -1,71 +1,34 @@
 {
-    "video_id": "263722550737983", 
-    "blockchain": [
-        {
-            "timestamp": 1489250587, 
-            "view_count": 0, 
-            "block_id": 0, 
-            "reactions": []
-        }, 
-        {
-            "timestamp": 1489250596, 
-            "view_count": 0, 
-            "block_id": 1, 
-            "reactions": []
-        }, 
-        {
-            "timestamp": 1489250601, 
-            "view_count": 0, 
-            "block_id": 2, 
-            "reactions": []
-        }, 
-        {
-            "timestamp": 1489250607, 
-            "view_count": 0, 
-            "block_id": 3, 
-            "reactions": []
-        }, 
-        {
-            "timestamp": 1489250612, 
-            "view_count": 0, 
-            "block_id": 4, 
-            "reactions": []
-        }, 
-        {
-            "timestamp": 1489250618, 
-            "view_count": 0, 
-            "block_id": 5, 
-            "reactions": []
-        }
-    ], 
-    "description": "Test description", 
+    "video_id": "263769644066607", 
+    "blockchain": [], 
+    "description": "", 
     "comments": [
         {
-            "created_time": "2017-03-11T16:43:18+0000", 
-            "message": "GdhsgoacjKva", 
+            "created_time": 1489256593, 
+            "message": "How is it going???", 
             "from": {
                 "name": "Alexandru-Paul Copil", 
                 "id": "263634904080081"
             }, 
-            "id": "263722544071317_263724224071149"
+            "id": "263769637399941_263770310733207"
         }, 
         {
-            "created_time": "2017-03-11T16:43:22+0000", 
-            "message": "12346789", 
+            "created_time": 1489256586, 
+            "message": "Hello world?", 
             "from": {
                 "name": "Alexandru-Paul Copil", 
                 "id": "263634904080081"
             }, 
-            "id": "263722544071317_263724250737813"
+            "id": "263769637399941_263770257399879"
         }, 
         {
-            "created_time": "2017-03-11T16:43:32+0000", 
-            "message": "\ud83d\ude01", 
+            "created_time": 1489256581, 
+            "message": "Test teat", 
             "from": {
                 "name": "Alexandru-Paul Copil", 
                 "id": "263634904080081"
             }, 
-            "id": "263722544071317_263726244070947"
+            "id": "263769637399941_263770237399881"
         }
     ]
 }

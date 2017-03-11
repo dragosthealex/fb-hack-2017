@@ -64,11 +64,8 @@ def get_keyphrase(video_id):
 
 
 if __name__ == '__main__':
-    documents_s = get_sentiment(263804970729741)
-    documents_k = get_keyphrase(263804970729741)
-
-    print documents_k
-
+    documents_s = get_sentiment(sys.argv[1])
+    documents_k = get_keyphrase(sys.argv[1])
     final = []
 
     for i, sentiment in enumerate(documents_s['documents']):
@@ -76,6 +73,5 @@ if __name__ == '__main__':
                       'sentiment': sentiment['score'],
                       'keyPhrases': documents_k['documents'][i]['keyPhrases']})
 
-    for i in final:
-        print i
+    print json.dumps(final)
 

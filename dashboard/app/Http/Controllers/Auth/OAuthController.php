@@ -51,7 +51,7 @@ class OAuthController extends Controller {
             $user->fb_id = $fb_user["id"];
             $user->password = bcrypt(str_random(40));
         }
-
+        $user->fb_token = $token;
         $user->save();
         Auth::login($user);
         return redirect()->to('/home');

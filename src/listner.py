@@ -152,5 +152,12 @@ if __name__ == '__main__':
     # Take only a token
     facebook = Facebook(sys.argv[1])
 
-    # Take a video id and listen for changes
-    print (facebook.listen(facebook.get_video_id()))
+    machine_learning_data = None
+    if sys.argv[2] is None:
+        # Get id from token
+        machine_learning_data = facebook.listen(facebook.get_video_id())
+    else:
+        # Take a video id and listen for changes
+        machine_learning_data = Facebook.listen(sys.argv[2])
+
+    print(machine_learning_data)

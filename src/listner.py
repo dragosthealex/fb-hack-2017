@@ -62,6 +62,11 @@ class Facebook(object):
         if 'status' in _response:
             return _response['status'] == 'LIVE'
 
+    # Returns the latest LIVE video id from the token argv
+    def get_video_id(self):
+        _response = self.get('me/live_videos', '?fields=id&limit=1')
+        return str(_response['data'][0]['id'])
+
     # Returns a dictionary containing all block related data
     def make_block(self, blockchain, reactions, views):
         return {'block_id': len(blockchain),     # int
@@ -118,35 +123,15 @@ class Facebook(object):
                     'blockchain': _blockchain,
                     'comments': _comments}
 
+        # Log the data
+        if logfile is not None:
+            with open(logfile, 'w') as file:
+                json.dump(_rawdata, file, indent=4)
+
         return str(_rawdata)
 
-        # # Log the data
-        # if logfile is not None:
-        #     with open(logfile, 'w') as file:
-        #         json.dump(_rawdata, file, indent=4)
 
-        # # Compute timeline for plotting
-        # _timestamps = [time for time in _blockchain['timestamp']]
-
-        # return {'comments': self.analyze_comments(_rawdata['comments'],
-        #                                           _timestamps)}
-
-    def get_video_id(self):
-        _response = self.get('me/live_videos', '?fields=id&limit=1')
-        return str(_response['data'][0]['id'])
-
-    def analyze_comments(self, comments_array, timestamps):
-        _count_comments = []
-
-        _index = 0
-        for comment in comments_array:
-            if date_to_unix(comment['created_time']) < timestamps[_index]:
-                _count_comments[_index] += 1
-            else:
-                pass
-
-
-# "created_time": "2017-03-11T16:43:18+0000"
+# Utility method to convert Graph API timestamps to UNIX timestamps
 def date_to_unix(timedate_string):
     # Magic
     timedate_string = timedate_string[:-5]

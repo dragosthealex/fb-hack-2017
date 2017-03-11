@@ -101,4 +101,9 @@ class HooksController extends Controller
         // Go to videos
         return redirect()->to('/videos/' . $video->id);
     }
+
+
+    public function live() {
+        echo "lol";        
+    }
 }

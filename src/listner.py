@@ -117,6 +117,10 @@ class Facebook(object):
         if 'comments' in _comments_request:
             _comments = self.get(video_id, COMMEN_REQUEST)['comments']['data']
 
+        # Convert datetime timestamps to unix timestamps for all comments
+        for _comment in _comments:
+            _comment['created_time'] = date_to_unix(_comment['created_time'])
+
         # Store everything as rawdata of blockchain and comments and metadata
         _rawdata = {'video_id': video_id,
                     'description': _desc,

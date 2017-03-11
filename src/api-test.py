@@ -55,9 +55,39 @@ class Facebook(object):
             return _response['status'] == 'LIVE'
 
     def listen(self, video_id):
+        _blockchain = []
+        _block = None
+        _count = 0
+
         while self.get_video_status(video_id):
-            print self.get(video_id, LISTEN_REQUEST)
+
+            # Obtain response with {reactions: data[], views: int}
+            _response = self.get(video_id, LISTEN_REQUEST)
+
+            if 'reactions' in _response.keys():
+
+                # Get all reactions from live video
+                _reactions = _response['reactions']['data']
+                # Ignore reactions already encountered
+                _reactions = _reactions[_count:]
+                # Increase reactions encountered count
+                _count += len(_reactions)
+                # Get the number of live views at the time
+                _views = _response['live_views']
+                # Create a block of data
+                _block = {'block_id': len(_blockchain),     # int
+                          'timestamp': int(time.time()),    # int
+                          'reactions': _reactions,          # array dicts
+                          'view_count': _views}             # int
+                # Append the block to the blockchain
+                _blockchain.append(_block)
+
+                # print "BLOCK", _block
+                # print "BLOCKS", _blocks
+
             time.sleep(REFRESH_RATE)
+
+        print _blockchain
 
 if __name__ == '__main__':
 
@@ -65,5 +95,5 @@ if __name__ == '__main__':
         # Take only a token
         facebook = Facebook(sys.argv[1])
 
-    # Take a video id and listen for changes
-    facebook.listen(sys.argv[2])
+        # Take a video id and listen for changes
+        facebook.listen(sys.argv[2])

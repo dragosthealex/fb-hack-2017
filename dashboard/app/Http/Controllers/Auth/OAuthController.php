@@ -33,7 +33,6 @@ class OAuthController extends Controller {
         // Get long lived token
         $ch = curl_init();
         $url = "https://graph.facebook.com/v2.8/oauth/access_token?grant_type=fb_exchange_token&client_id=" . env('FB_APP_ID') . "&client_secret=" . env('FB_APP_SECRET') . "&fb_exchange_token=" . $token . "&redirect_uri=" . urlencode(env('APP_URL'));
-        echo $url;
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $result = json_decode(curl_exec($ch), 1);
@@ -55,7 +54,7 @@ class OAuthController extends Controller {
 
         $user->save();
         Auth::login($user);
-        return redirect('/home');
+        return redirect()->to('/home');
     }
 
     public function success($provider) {

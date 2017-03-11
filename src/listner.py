@@ -120,16 +120,16 @@ class Facebook(object):
 
         return str(_rawdata)
 
-        # Log the data
-        if logfile is not None:
-            with open(logfile, 'w') as file:
-                json.dump(_rawdata, file, indent=4)
+        # # Log the data
+        # if logfile is not None:
+        #     with open(logfile, 'w') as file:
+        #         json.dump(_rawdata, file, indent=4)
 
-        # Compute timeline for plotting
-        _timestamps = [time for time in _blockchain['timestamp']]
+        # # Compute timeline for plotting
+        # _timestamps = [time for time in _blockchain['timestamp']]
 
-        return {'comments': self.analyze_comments(_rawdata['comments'],
-                                                  _timestamps)}
+        # return {'comments': self.analyze_comments(_rawdata['comments'],
+        #                                           _timestamps)}
 
     def get_video_id(self):
         _response = self.get('me/live_videos', '?fields=id&limit=1')

@@ -1,6 +1,7 @@
 import requests
 import json
 import time
+import hashlib
 import datetime
 import sys
 import os
@@ -76,7 +77,7 @@ class Facebook(object):
                 'view_count': views}             # int
 
     # Request *data from a live video until it goes offline
-    def listen(self, video_id, logfile='output.payload'):
+    def listen(self, video_id):
         _blockchain = []
         _block = None
         _count = 0
@@ -128,10 +129,11 @@ class Facebook(object):
                     'blockchain': _blockchain,
                     'comments': _comments}
 
-        # Log the data
-        if logfile is not None:
-            with open(logfile, 'w') as file:
-                json.dump(_rawdata, file, indent=4)
+        # Log the data for MS API
+        logfile = hashlib.sha256(str(_rawdata['video_id'])).hexdigest()
+        logfile = os.path.dirname(__file__) + './data/' + logfile
+        with open(logfile, 'w') as file:
+            json.dump(_rawdata, file)
 
         return json.dumps(_rawdata)
 
@@ -179,6 +181,5 @@ if __name__ == '__main__':
         # Take a video id and listen for changes
         machine_learning_data = Facebook.listen(sys.argv[2])
 
-    # print(machine_learning_data)
-
-    processed_data = facebook.process_data(machine_learning_data)
+    print(machine_learning_data)
+    # processed_data = facebook.process_data(machine_learning_data)

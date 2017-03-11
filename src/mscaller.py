@@ -1,9 +1,11 @@
-import json
 import os
 import sys
+import json
 import msapi
 import hashlib
 import requests
+
+from vaderSentiment import vaderSentiment
 
 URL_ENDS = ['sentiment', 'keyPhrases']
 URL = 'https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/'
@@ -63,15 +65,32 @@ def get_keyphrase(video_id):
     #     print document
 
 
+def get_vader(video_id):
+    comments = get_comments(video_id)
+    analyzer = vaderSentiment.SentimentIntensityAnalyzer()
+    vaders = []
+
+    for comment in comments:
+        vs = comment['message'], analyzer.polarity_scores(comment['message'])
+        vaders.append(vs)
+
+    return vaders
+
+
 if __name__ == '__main__':
+
+    # 263804970729741
     documents_s = get_sentiment(sys.argv[1])
     documents_k = get_keyphrase(sys.argv[1])
+    documents_v = get_vader(sys.argv[1])
+
     final = []
 
     for i, sentiment in enumerate(documents_s['documents']):
         final.append({'id': sentiment['id'],
                       'sentiment': sentiment['score'],
-                      'keyPhrases': documents_k['documents'][i]['keyPhrases']})
+                      'keyPhrases': documents_k['documents'][i]['keyPhrases'],
+                      'vader': documents_v[i][1]})
 
-    print json.dumps(final)
+    print(json.dumps(final))
 

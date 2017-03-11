@@ -56,10 +56,7 @@
                 <h3>General</h3>
                 <ul class="nav side-menu">
                   <li>
-                    <a href="./index.php"><i class="fa fa-home"></i> Home</span></a>
-                  </li>
-                  <li>
-                    <a href="./upload.php"><i class="fa fa-upload"></i> Upload</span></a>
+                    <a href="{{ url('/') }}"><i class="fa fa-home"></i> Home</span></a>
                   </li>
                 </ul>
               </div>

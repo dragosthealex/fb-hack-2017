@@ -62,7 +62,7 @@ class HooksController extends Controller
         $live_vid_id = json_decode(curl_exec($ch), 1)["video"]["id"];
         curl_close($ch);
         // Get the source of video
-        sleep(10);
+        sleep(10); // Sleep to wait fb processing
         $ch = curl_init();
         $url = "https://graph.facebook.com/v2.8/" . $live_vid_id . "?fields=source&access_token=" . $user->fb_token;
         echo $url;
@@ -84,6 +84,20 @@ class HooksController extends Controller
         // Download video there
         file_put_contents('../../videos/' . $user->id . '/' . $video->fb_id + '.mp4', file_get_contents($source));
 
+        // Do MS stuff
+        $cmd = "python ../../src/mscaller.py " . $video->fb_id;
+        $parsed = json_decode(shell_exec($cmd), 1);
+
+        foreach($parsed as $comm) {
+            $db_comm = $video->comments()->where('timestamp', $parsed['id'])->firstOrFail();
+            $db_comm->keywords = $comm["keyPhrases"];
+            $db_comm->score = $comm["sentiment"];
+            $db_comm->negative = $comm["vader"]["neg"];
+            $db_comm->positive = $comm["vader"]["pos"];
+            $db_comm->neutral = $comm["vader"]["neu"];
+            $db_comm->compound = $comm["vader"]["compound"];
+            $db_comm->save();
+        }
         // Go to videos
         return redirect()->to('/videos/' . $video->id);
     }

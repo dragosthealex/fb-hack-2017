@@ -5,11 +5,6 @@ import os
 # "https://graph.facebook.com/v2.8/263341274109444/?access_token=<token>"
 
 
-TOKEN = '''
-EAACEdEose0cBAFyLZAj9mlL0RF9l77AgPyVfBP70ZBpl6kLW5NNxzptLm3SH8pRn43ZAgE52cZCVfTfnOZC5y7RWQl3kGz1Ye3vf2wAtQoHunZCtD48AinRMEXzVakfarenyHZBH0TqxJBjLgMKE3qItecIl4EP6VesSvbjkIu7eGTPZALk7xZAX0d4erdl1Dwe8ZD
-'''
-
-
 class Facebook(object):
 
     def __init__(self, token=None, config_file='config.json'):

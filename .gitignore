@@ -90,3 +90,6 @@ ENV/
 
 # VSCODE
 .vscode/
+
+# CUSTOM
+src/.secret

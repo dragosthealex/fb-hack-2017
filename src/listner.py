@@ -1,6 +1,7 @@
 import requests
 import json
 import time
+import hashlib
 import datetime
 import sys
 import os
@@ -35,7 +36,7 @@ class Facebook(object):
     # Read the given config file
     def read_config(self, filename):
         # Read a given config file (json)
-        filename = os.path.dirname(__file__) + '/' + filename
+        filename = os.path.dirname(__file__) + './' + filename
         with open(filename, 'r') as file:
             _config = json.load(file)
             self._url = '{}/{}/'.format(_config['url'], _config['version'])
@@ -76,7 +77,7 @@ class Facebook(object):
                 'view_count': views}             # int
 
     # Request *data from a live video until it goes offline
-    def listen(self, video_id, logfile='output.payload'):
+    def listen(self, video_id):
         _blockchain = []
         _block = None
         _count = 0
@@ -128,12 +129,31 @@ class Facebook(object):
                     'blockchain': _blockchain,
                     'comments': _comments}
 
-        # Log the data
-        if logfile is not None:
-            with open(logfile, 'w') as file:
-                json.dump(_rawdata, file, indent=4)
+        # Log the data for MS API
+        logfile = hashlib.sha256(str(_rawdata['video_id'])).hexdigest()
+        logfile = os.path.dirname(__file__) + './data/' + logfile
+        with open(logfile, 'w') as file:
+            json.dump(_rawdata, file)
 
         return json.dumps(_rawdata)
+
+    # def process_data(self, raw_data):
+    #     fine_data = {'video_id': raw_data['video_id'],
+    #                  'description': raw_data['description'],
+    #                  'blockchain': []}
+
+    #     _count = 0
+    #     for i, block in enumerate(raw_data['blockchain']):
+    #         fine_data['blockchain'].append({})
+    #         fine_data['blockchain'][i]['comments'] = []
+    #         for comment in raw_data['comments'][_count:]:
+    #             if comment['created_time'] < block['timestamp']:
+    #                 comment = {'message': comment['message'],
+    #                            'id': comment['from']['id']}
+    #                 fine_data['blockchain'][i]['comments'].append(comment)
+    #                 _count += 1
+
+    #     print fine_data
 
 
 # Utility method to convert Graph API timestamps to UNIX timestamps
@@ -153,5 +173,13 @@ if __name__ == '__main__':
     # Take only a token
     facebook = Facebook(sys.argv[1])
 
-    # Take a video id and listen for changes
-    print (facebook.listen(facebook.get_video_id()))
+    machine_learning_data = None
+    if len(sys.argv) == 2:
+        # Get id from token
+        machine_learning_data = facebook.listen(facebook.get_video_id())
+    else:
+        # Take a video id and listen for changes
+        machine_learning_data = Facebook.listen(sys.argv[2])
+
+    print(machine_learning_data)
+    # processed_data = facebook.process_data(machine_learning_data)

@@ -93,3 +93,5 @@ ENV/
 
 # CUSTOM
 src/.secret
+
+.phpintel

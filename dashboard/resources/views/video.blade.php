@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', config('app.name') . ' | ' . $video.name)
+@section('title', config('app.name') . ' | ' . $video->description)
 @section('css')
 <style>
 .video-container {
@@ -224,14 +224,14 @@ a.tab-button.active {
 <div class="col-md-12 col-sm-12 col-xs-12">
   <div class="dashboard_graph">
     <div class="video-container">
-      <audio
+      <video
           id="video"
           class="video-active"
           width="100%"
           style="display:block;width:100%"
           controls="controls">
-          <source src="video.mp4" type="audio/mp4">
-      </audio>
+          <source src="<?=$video->url?>" type="video/mp4">
+      </video>
     </div>
     <div class="tab-bar">
       <ul class="plot-tabs">

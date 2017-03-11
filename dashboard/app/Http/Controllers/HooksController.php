@@ -62,6 +62,7 @@ class HooksController extends Controller
         $live_vid_id = json_decode(curl_exec($ch), 1)["video"]["id"];
         curl_close($ch);
         // Get the source of video
+        sleep(10);
         $ch = curl_init();
         $url = "https://graph.facebook.com/v2.8/" . $live_vid_id . "?fields=source&access_token=" . $user->fb_token;
         echo $url;
@@ -72,8 +73,18 @@ class HooksController extends Controller
 
         $video->url = $source;
         $video->save();
-        //return redirect()->to('/videos/' . $video->id);
-        
-    }
 
+        // Make user dir if not exists
+        if(!is_dir('../../videos')) {
+            mkdir('../../videos');
+        }
+        if(!is_dir('../../videos/' . $user->id)) {
+            mkdir('../../videos/' . $user->id);
+        }
+        // Download video there
+        file_put_contents('../../videos/' . $user->id . '/' . $video->fb_id, $source);
+
+        // Go to videos
+        return redirect()->to('/videos/' . $video->id);
+    }
 }

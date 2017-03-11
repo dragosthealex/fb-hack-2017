@@ -19,7 +19,7 @@ class AddMoreTables extends Migration
             $table->string('fb_id');
             $table->text('description')->nullable();
             $table->unsignedInteger('user_id');
-            $table->string('url')->nullable();
+            $table->text('url')->nullable();
             $table->string('started')->nullable();
             $table->string('finished')->nullable();
             $table->timestamps();

@@ -8,11 +8,14 @@ use App\Video;
 use App\Comment;
 use App\Frame;
 
-class HooksController extends Controller
+class VideoController extends Controller
 {
-    public function test_live_video() {
-        if(!Auth::check()) {
+    public function show($id) {
+        $video = Video::find($id);
+        if($video->user_id != Auth::id()) {
             return redirect()->to('/');
         }
+
+        return view('video')->with('video', $video);
     }
 }

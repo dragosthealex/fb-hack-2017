@@ -9,6 +9,7 @@ import os
 
 CONFIG_FILE = 'config.json'
 LISTEN_REQUEST = '?fields=reactions{type},live_views'
+COMMEN_REQUEST = '?fields=comments'
 TOKEN_FROMAT = '&access_token={}'
 REFRESH_RATE = 5
 
@@ -54,7 +55,13 @@ class Facebook(object):
         if 'status' in _response:
             return _response['status'] == 'LIVE'
 
-    def listen(self, video_id):
+    def make_block(self, blockchain, reactions, views):
+        return {'block_id': len(blockchain),     # int
+                'timestamp': int(time.time()),   # int
+                'reactions': reactions,          # array dicts
+                'view_count': views}             # int
+
+    def listen(self, video_id, logfile='output.payload'):
         _blockchain = []
         _block = None
         _count = 0
@@ -75,19 +82,36 @@ class Facebook(object):
                 # Get the number of live views at the time
                 _views = _response['live_views']
                 # Create a block of data
-                _block = {'block_id': len(_blockchain),     # int
-                          'timestamp': int(time.time()),    # int
-                          'reactions': _reactions,          # array dicts
-                          'view_count': _views}             # int
+                _block = self.make_block(_blockchain, _reactions, _views)
                 # Append the block to the blockchain
                 _blockchain.append(_block)
+            else:
+                # In case of empty reactions!
+                _views = _response['live_views']
+                _blockchain.append(self.make_block(_blockchain, [], _views))
 
-                # print "BLOCK", _block
-                # print "BLOCKS", _blocks
-
+            # Wait before making a new request
             time.sleep(REFRESH_RATE)
 
-        print _blockchain
+        # At the end of the stream, obtian the comments and description
+        _desc = ''
+        if 'description' in self.get(video_id, '?fields=description').keys():
+            _desc = self.get(video_id, '?fields=description')['description']
+
+        _comments = self.get(video_id, COMMEN_REQUEST)['comments']['data']
+
+        # Store everything as a "payload" of blockchain and comments
+        _payload = {'video_id': video_id,
+                    'description': _desc,
+                    'blockchain': _blockchain,
+                    'comments': _comments}
+
+        # Log the data
+        if logfile is not None:
+            with open(logfile, 'w') as file:
+                json.dump(_payload, file, indent=4)
+
+        return _payload
 
 if __name__ == '__main__':
 

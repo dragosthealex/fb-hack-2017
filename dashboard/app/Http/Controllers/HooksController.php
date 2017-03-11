@@ -102,7 +102,7 @@ class HooksController extends Controller
     }
 
 
-    public function live() {
-        echo "lol";        
+    public function live(Request $request) {
+        echo $request->input('challenge');
     }
 }

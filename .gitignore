@@ -93,6 +93,7 @@ ENV/
 
 # CUSTOM
 src/.secret
+src/msapi.py
 
 .phpintel
 videos

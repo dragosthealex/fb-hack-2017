@@ -12,6 +12,9 @@
 */
 
 Route::get('/', function () {
+    if(Auth::check()) {
+        return redirect()->to('/home');
+    }
     return view('welcome');
 });
 
@@ -25,6 +28,7 @@ Route::get('/register', function() {
 });
 Route::get('/logout', function() {
     Auth::logout();
+    return redirect()->to('/');
 });
 
 Route::get('/home', 'HomeController@index');

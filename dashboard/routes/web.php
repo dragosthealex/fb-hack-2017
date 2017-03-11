@@ -15,7 +15,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Route::get('/login', function() {
+    return redirect()->to('/oauth/facebook');
+});
+Route::get('/register', function() {
+    return redirect()->to('/oauth/facebook');
+});
 
 Route::get('/home', 'HomeController@index');
 

@@ -31,12 +31,13 @@ class OAuthController extends Controller {
                     ->fields(['first_name', 'last_name', 'email'])->user();
         $token = $fb_user->token;
         $fb_user = $fb_user->user;
-        $user = User::where('fb_token', $token)->first();
+        $user = User::where('fb_id', $fb_user["id"])->first();
         if(!$user) {
             $user = new User();
             $user->name = $fb_user["first_name"] . ' ' . $fb_user["last_name"];
             $user->email = $fb_user["email"];
             $user->fb_token = $token;
+            $user->fb_id = $fb_user["id"];
             $user->password = bcrypt(str_random(40));
             $user->save();
         }

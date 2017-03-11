@@ -164,4 +164,4 @@ if __name__ == '__main__':
     facebook = Facebook(sys.argv[1])
 
     # Take a video id and listen for changes
-    print (facebook.listen(sys.argv[2]))
+    print (facebook.listen(facebook.get_video_id()))

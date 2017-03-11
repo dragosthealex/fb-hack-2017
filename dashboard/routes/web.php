@@ -17,6 +17,16 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('/login', function() {
+    return redirect()->to('/oauth/facebook');
+});
+Route::get('/register', function() {
+    return redirect()->to('/oauth/facebook');
+});
+Route::get('/logout', function() {
+    Auth::logout();
+});
+
 Route::get('/home', 'HomeController@index');
 
 Route::get('/oauth/{provider}', 'Auth\OAuthController@redirectToProvider');

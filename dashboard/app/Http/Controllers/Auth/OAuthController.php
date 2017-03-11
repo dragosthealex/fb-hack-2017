@@ -17,8 +17,9 @@ class OAuthController extends Controller {
 
     public function handleProviderCallback($provider) {
         $user = Socialize::with($provider)->user();
-        echo $user->token;
-        echo $user->videos;
+        echo "<pre>";
+        var_dump($user);
+        echo "</pre>";
     }
 
     public function success($provider) {

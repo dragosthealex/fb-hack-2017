@@ -1,6 +1,7 @@
 import requests
 import json
 import time
+import datetime
 import sys
 import os
 
@@ -106,29 +107,61 @@ class Facebook(object):
         if 'description' in self.get(video_id, '?fields=description').keys():
             _desc = self.get(video_id, '?fields=description')['description']
 
-        _comments = self.get(video_id, COMMEN_REQUEST)['comments']['data']
+        _comments_request = self.get(video_id, COMMEN_REQUEST)
+        _comments = []
+        if 'comments' in _comments_request:
+            _comments = self.get(video_id, COMMEN_REQUEST)['comments']['data']
 
-        # Store everything as a "payload" of blockchain and comments
-        _payload = {'video_id': video_id,
+        # Store everything as rawdata of blockchain and comments and metadata
+        _rawdata = {'video_id': video_id,
                     'description': _desc,
                     'blockchain': _blockchain,
                     'comments': _comments}
 
+        return str(_rawdata)
+
         # Log the data
         if logfile is not None:
             with open(logfile, 'w') as file:
-                json.dump(_payload, file, indent=4)
+                json.dump(_rawdata, file, indent=4)
 
-        return _payload
+        # Compute timeline for plotting
+        _timestamps = [time for time in _blockchain['timestamp']]
+
+        return {'comments': self.analyze_comments(_rawdata['comments'],
+                                                  _timestamps)}
+
+    def get_video_id(self):
+        _response = self.get('me/live_videos', '?fields=id&limit=1')
+        return str(_response['data'][0]['id'])
+
+    def analyze_comments(self, comments_array, timestamps):
+        _count_comments = []
+
+        _index = 0
+        for comment in comments_array:
+            if date_to_unix(comment['created_time']) < timestamps[_index]:
+                _count_comments[_index] += 1
+            else:
+                pass
+
+
+# "created_time": "2017-03-11T16:43:18+0000"
+def date_to_unix(timedate_string):
+    # Magic
+    timedate_string = timedate_string[:-5]
+    return int(time.mktime(
+        datetime.datetime.strptime(
+            timedate_string, "%Y-%m-%dT%H:%M:%S").timetuple()))
+
 
 if __name__ == '__main__':
 
     # argv[1] - token
     # argv[2] - video id
 
-    if len(sys.argv) == 3:
-        # Take only a token
-        facebook = Facebook(sys.argv[1])
+    # Take only a token
+    facebook = Facebook(sys.argv[1])
 
-        # Take a video id and listen for changes
-        facebook.listen(sys.argv[2])
+    # Take a video id and listen for changes
+    print (facebook.listen(sys.argv[2]))

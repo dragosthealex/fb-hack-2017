@@ -22,16 +22,26 @@
         <h3>Videos</h3>
         <table class="table-striped table-responsive datatables">
             <thead>
-                <td>
+                <tr>
                     <th>ID</th>
-                    <th>Name</th>
+                    <th>Description</th>
                     <th>Date</th>
                     <th>Total Reactions</th>
                     <th>Total Views</th>
-                </td>
+                    <th>Actions</th>
+                </tr>
             </thead>
             <tbody>
-                
+                @foreach(Auth::user()->videos as $video)
+                <tr>
+                    <td><?=$video->id?></td>
+                    <td><?=$video->description?$video->description:'N/A'?></td>                    
+                    <td><?=$video->created_at?></td>                    
+                    <td><?=$video->get_total_reactions()?></td>                    
+                    <td><?=$video->get_total_views()?></td>
+                    <td><a class="btn btn-default btn-success" href="{{ url('/videos/' . $video->id) }}">View</a>               
+                </tr>
+                @endforeach
             </tbody>
         </table>
     </div>

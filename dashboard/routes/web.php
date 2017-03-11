@@ -36,6 +36,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/home', 'HomeController@index');
+Route::get('/videos/{id}', 'VideoController@show');
 
 // Hooks
 Route::get('/hooks/live-video/test', 'HooksController@test_live_video');

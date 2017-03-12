@@ -124,10 +124,13 @@ class Facebook(object):
             _comment['created_time'] = date_to_unix(_comment['created_time'])
 
         # Store everything as rawdata of blockchain and comments and metadata
+        creation = self.get(video_id, '?fields=creation_time')['creation_time']
+        creation = date_to_unix(creation)
         _rawdata = {'video_id': video_id,
                     'description': _desc,
                     'blockchain': _blockchain,
-                    'comments': _comments}
+                    'comments': _comments,
+                    'creation': creation}
 
         # Log the data for MS API
         logfile = hashlib.sha256(str(_rawdata['video_id']).encode('utf-8')).hexdigest()

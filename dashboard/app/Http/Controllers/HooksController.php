@@ -82,7 +82,7 @@ class HooksController extends Controller
             mkdir('../../videos/' . $user->id);
         }
         // Download video there
-        file_put_contents('../../videos/' . $user->id . '/' . $video->fb_id + '.mp4', file_get_contents($source));
+        file_put_contents('../../videos/' . $user->id . '/' . $video->fb_id . '.mp4', file_get_contents($source));
 
         // Do MS stuff
         $cmd = "python ../../src/mscaller.py " . $video->fb_id;

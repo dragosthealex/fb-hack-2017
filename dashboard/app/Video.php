@@ -61,7 +61,7 @@ class Video extends Model
         $zero = (int)$this->frames()->orderBy('timestamp', 'ASC')->first()->timestamp;
         $previous = $zero;
         $zero = $this->frames()->orderBy('timestamp', 'ASC')->get();
-        $zero = (int)$zero[1]->timestamp;
+        $zero = (int)$this->start_timestamp;
         foreach($this->frames()->orderBy('timestamp', 'ASC')->get() as $key => $frame) {
             $obj = [];
             $obj["frame"] = (int)$frame["timestamp"] - $zero;

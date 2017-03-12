@@ -92,8 +92,6 @@ ENV/
 .vscode/
 
 # CUSTOM
-src/.secret
-src/msapi.py
 
 .phpintel
 videos

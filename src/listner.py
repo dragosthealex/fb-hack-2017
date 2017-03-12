@@ -130,7 +130,7 @@ class Facebook(object):
                     'comments': _comments}
 
         # Log the data for MS API
-        logfile = hashlib.sha256(str(_rawdata['video_id'])).hexdigest()
+        logfile = hashlib.sha256(str(_rawdata['video_id']).encode('utf-8')).hexdigest()
         logfile = os.path.dirname(__file__) + './data/' + logfile
         with open(logfile, 'w') as file:
             json.dump(_rawdata, file)

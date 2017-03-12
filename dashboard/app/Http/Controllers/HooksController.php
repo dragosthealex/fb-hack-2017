@@ -87,7 +87,6 @@ class HooksController extends Controller
         // Do MS stuff
         $cmd = "python ../../src/mscaller.py " . $video->fb_id;
         $parsed = json_decode(shell_exec($cmd), 1);
-
         foreach($parsed as $comm) {
             $db_comm = $video->comments()->where('timestamp', $parsed['id'])->firstOrFail();
             $db_comm->keywords = $comm["keyPhrases"];
@@ -100,5 +99,13 @@ class HooksController extends Controller
         }
         // Go to videos
         return redirect()->to('/videos/' . $video->id);
+    }
+
+
+    public function live(Request $request) {
+	$result = $request->all();
+	$f = fopen("test.txt", "a");
+	fwrite($f, json_encode($result));
+	fclose($f);
     }
 }

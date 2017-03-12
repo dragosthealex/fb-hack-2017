@@ -40,3 +40,4 @@ Route::get('/videos/{id}', 'VideoController@show');
 
 // Hooks
 Route::get('/hooks/live-video/test', 'HooksController@test_live_video');
+Route::post('/hook/live-video/live', 'HooksController@live');

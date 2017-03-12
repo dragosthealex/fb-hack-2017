@@ -78,21 +78,26 @@ a.tab-button.active {
 <!-- top tiles -->
 <div class="row tile_count">
 <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
-  <span class="count_top"><i class="fa fa-user"></i> Max Attentive People</span>
-  <div class="count" id="max-attentive">123</div>
+  <span class="count_top"><i class="fa fa-user"></i> Total reactions</span>
+  <div class="count" id="max-attentive"><?=$video->get_total_reactions()?></div>
 </div>
 <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
-  <span class="count_top"><i class="fa fa-user"></i> Average Happiness Index</span>
-  <div class="count" id="avg-happiness-index">123</div>
+  <span class="count_top"><i class="fa fa-user"></i> Max view count</span>
+  <div class="count" id="avg-happiness-index"><?=$video->get_total_views()?></div>
 </div>
 <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
-  <span class="count_top"><i class="fa fa-clock-o"></i> Average Attention Index</span>
-  <div class="count" id="avg-attention-index">0.43</div>
+  <span class="count_top"><i class="fa fa-clock-o"></i> Total comments</span>
+  <div class="count" id="avg-attention-index"><?=count($video->comments)?></div>
 </div>
 <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
-  <span class="count_top"><i class="fa fa-user"></i> Most common sentiment</span>
-  <div class="count green" id="common-sentiment">Happiness</div>
-  <span class="count_bottom" id="sentiment-percentage"><i class="green">86% </i> Average</span>
+  <span class="count_top"><i class="fa fa-user"></i> Average Comment sentiment</span>
+  @if(($acs = $video->get_avg_sentiment()) < 50)
+  <div class="count red" id="common-sentiment">Disapproval</div>
+  <span class="count_bottom" id="sentiment-percentage"><i class="red"><?=$acs?>% </i></span>
+  @else
+  <div class="count green" id="common-sentiment">Approval</div>
+  <span class="count_bottom" id="sentiment-percentage"><i class="green"><?=$acs?>% </i></span>
+  @endif
 </div>
 </div>
 <!-- /top tiles -->

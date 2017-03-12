@@ -62,13 +62,17 @@ class HooksController extends Controller
         $live_vid_id = json_decode(curl_exec($ch), 1)["video"]["id"];
         curl_close($ch);
         // Get the source of video
-        sleep(10); // Sleep to wait fb processing
         $ch = curl_init();
         $url = "https://graph.facebook.com/v2.8/" . $live_vid_id . "?fields=source&access_token=" . $user->fb_token;
         echo $url;
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        $source = json_decode(curl_exec($ch), 1)["source"];
+        $v = json_decode(curl_exec($ch), 1);
+        while(!isset($v["source"])) {
+            sleep(3);
+            $v = json_decode(curl_exec($ch), 1);
+        }
+        $source = $v["source"];
         curl_close($ch);
 
         $video->url = $source;
@@ -90,8 +94,8 @@ class HooksController extends Controller
         var_dump($res);
         $parsed = json_decode($res, 1);
         foreach($parsed as $comm) {
-            $db_comm = $video->comments()->where('timestamp', $parsed['id'])->firstOrFail();
-            $db_comm->keywords = $comm["keyPhrases"];
+            $db_comm = $video->comments()->where('timestamp', $comm['id'])->firstOrFail();
+            $db_comm->keywords = json_encode($comm["keyPhrases"]);
             $db_comm->score = $comm["sentiment"];
             $db_comm->negative = $comm["vader"]["neg"];
             $db_comm->positive = $comm["vader"]["pos"];

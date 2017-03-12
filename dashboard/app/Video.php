@@ -38,8 +38,21 @@ class Video extends Model
         $total = 0;
         $frames = $this->frames;
         foreach($frames as $frame) {
-            $total += $frame->view_count;
+            if($frame->view_count > $total) {
+                $total = $frame->view_count;
+            }
         }
         return $total;
+    }
+
+    public function get_avg_sentiment() {
+        if(!($c = count($this->comments()))) {
+            return 'N/A';
+        }
+        $sum = 0;
+        foreach($this->comments as $comm) {
+            $sum += floatval($comm->score);
+        }
+        return $sum*100 / (float)$c;
     }
 }

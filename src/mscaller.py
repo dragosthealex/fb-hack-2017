@@ -18,7 +18,7 @@ def get_header():
 
 
 def get_comments(video_id):
-    file = hashlib.sha256(str(video_id)).hexdigest()
+    file = hashlib.sha256(str(video_id).encode('utf-8')).hexdigest()
     path = os.path.dirname(__file__) + './data/'
     with open(path+file, 'r') as inputfile:
         data = json.load(inputfile)
@@ -46,8 +46,7 @@ def get_sentiment(video_id):
         response = req_session.post(URL+URL_ENDS[0],
                                     headers=get_header(),
                                     data=get_data(video_id))
-
-    return json.loads(response.content)
+    return json.loads(response.content.decode('utf-8'))
     # response = json.loads(response.content)
     # for document in response['documents']:
     #     print document
@@ -59,7 +58,7 @@ def get_keyphrase(video_id):
                                     headers=get_header(),
                                     data=get_data(video_id))
 
-    return json.loads(response.content)
+    return json.loads(response.content.decode('utf-8'))
     # response = json.loads(response.content)
     # for document in response['documents']:
     #     print document
@@ -85,6 +84,10 @@ if __name__ == '__main__':
     documents_v = get_vader(sys.argv[1])
 
     final = []
+
+    if 'documents' not in documents_s.keys():
+        print(json.dumps(final))
+        sys.exit()
 
     for i, sentiment in enumerate(documents_s['documents']):
         final.append({'id': sentiment['id'],

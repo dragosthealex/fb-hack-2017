@@ -86,7 +86,9 @@ class HooksController extends Controller
 
         // Do MS stuff
         $cmd = "python ../../src/mscaller.py " . $video->fb_id;
-        $parsed = json_decode(shell_exec($cmd), 1);
+        $res = shell_exec($cmd);
+        var_dump($res);
+        $parsed = json_decode($res, 1);
         foreach($parsed as $comm) {
             $db_comm = $video->comments()->where('timestamp', $parsed['id'])->firstOrFail();
             $db_comm->keywords = $comm["keyPhrases"];

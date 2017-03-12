@@ -103,14 +103,9 @@ class HooksController extends Controller
 
 
     public function live(Request $request) {
-        $token = $request->input('hub_challenge');
-        $my_token = env('FB_HOOK_KEY');
-        $verify_token = $request->input('hub_verify_token');
-
-        if($my_token == $verify_token) {
-            echo $token;
-        } else {
-            die("not today");
-        }
+	$result = $request->all();
+	$f = fopen("test.txt", "a");
+	fwrite($f, json_encode($result));
+	fclose($f);
     }
 }

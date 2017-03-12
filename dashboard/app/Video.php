@@ -58,10 +58,8 @@ class Video extends Model
 
     public function get_info_by_frames() {
         $res = [];
-        $zero = (int)$this->frames()->orderBy('timestamp', 'ASC')->first()->timestamp;
-        $previous = $zero;
-        $zero = $this->frames()->orderBy('timestamp', 'ASC')->get();
         $zero = (int)$this->start_timestamp;
+        $previous = $zero;
         foreach($this->frames()->orderBy('timestamp', 'ASC')->get() as $key => $frame) {
             $obj = [];
             $obj["frame"] = (int)$frame["timestamp"] - $zero;

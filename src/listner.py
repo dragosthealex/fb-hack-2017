@@ -36,7 +36,7 @@ class Facebook(object):
     # Read the given config file
     def read_config(self, filename):
         # Read a given config file (json)
-        filename = os.path.dirname(__file__) + './' + filename
+        filename = os.path.abspath(os.path.dirname(__file__)) + '/config.json'
         with open(filename, 'r') as file:
             _config = json.load(file)
             self._url = '{}/{}/'.format(_config['url'], _config['version'])
@@ -131,7 +131,7 @@ class Facebook(object):
 
         # Log the data for MS API
         logfile = hashlib.sha256(str(_rawdata['video_id']).encode('utf-8')).hexdigest()
-        logfile = os.path.dirname(__file__) + './data/' + logfile
+        logfile = os.path.abspath(os.path.dirname(__file__)) + '/data/' + logfile
         with open(logfile, 'w') as file:
             json.dump(_rawdata, file)
 

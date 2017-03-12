@@ -45,7 +45,9 @@ def get_video_stuff(user, video):
     _everything = []
     for img in os.listdir(upload):
         _everything.append(get_objects(SERVER_URL+initvid[:-4]+'/'+img))
-    print(json.dumps(_everything))
+
+    with open(upload+'/MLD', 'w') as file:
+        json.dump(_everything, file)
 
 if __name__ == '__main__':
     os.chdir(os.path.abspath(os.path.dirname(__file__)))

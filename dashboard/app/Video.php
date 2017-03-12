@@ -58,7 +58,9 @@ class Video extends Model
 
     public function get_info_by_frames() {
         $res = [];
-        $zero = (int)$this->start_timestamp;
+        $zero = (int)$this->start_timestamp + 25;
+        $zero = $this->frames()->orderBy('timestamp', 'ASC')->first();
+        $zero = $zero["timestamp"];
         $previous = $zero;
         foreach($this->frames()->orderBy('timestamp', 'ASC')->get() as $key => $frame) {
             $obj = [];
@@ -103,7 +105,9 @@ class Video extends Model
 
             $previous = $frame->timestamp;
         }
-        array_shift($res);
+        $fr = $this->frames()->orderBy('timestamp', 'ASC')->first();
+        $fr = (int)$fr["timestamp"];
+        $z = ($fr - $zero)/4;
         return json_encode($res);
     }
 }

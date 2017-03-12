@@ -156,6 +156,12 @@ a.tab-button.active {
     <div id="plot-video-negative" class="comments video-placeholder demo-placeholder"></div>
     <div id="plot-video-neutral" class="comments video-placeholder demo-placeholder"></div>
     <div id="plot-video-trend" class="comments video-placeholder demo-placeholder"></div>
+    <h2>Video Keywords</h2>
+    <p>
+      @foreach(json_decode($video->keywords,1) as $kw)
+        <?=$kw["name"]?>
+      @endforeach
+    </p>
   </div>
 </div>
 </div>

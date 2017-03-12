@@ -80,6 +80,7 @@ class HooksController extends Controller
         curl_close($ch);
 
         $video->url = $source;
+        $video->keywords = json_encode([]);
         $video->save();
 
         // Make user dir if not exists
@@ -107,6 +108,24 @@ class HooksController extends Controller
             $db_comm->compound = $comm["vader"]["compound"];
             $db_comm->save();
         }
+
+        // Do ffmpeg
+        $cmd = "python ../../src/vision.py " . Auth::user() . ' ' . $video->fb_id;
+        $res = shell_exec($cmd);
+        var_dump($res);
+        $parsed = json_decode($res, 1);
+        if($parsed) {
+            $kw = [];
+            foreach($parsed as $objects) {
+                foreach($objects as $obj) {
+                    array_push($kw, $obj["name"]);
+                }
+            }
+            $video->keywords = json_encode($kw);
+            $video->save();
+        }
+
+
         // Go to videos
         return redirect()->to('/videos/' . $video->id);
     }

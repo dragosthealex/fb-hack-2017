@@ -124,7 +124,7 @@ class Facebook(object):
             _comment['created_time'] = date_to_unix(_comment['created_time'])
 
         # Store everything as rawdata of blockchain and comments and metadata
-        creation = self.get(video_id, '?fields=broadcast_start_time')['creation_time']
+        creation = self.get(video_id, '?fields=broadcast_start_time')['broadcast_start_time']
         creation = date_to_unix(creation)
         _rawdata = {'video_id': video_id,
                     'description': _desc,

@@ -16,7 +16,7 @@ def get_objects(url):
 
     stuff = model.predict_by_url(url=url)
 
-    return json.dumps(stuff['outputs'][0]['data']['concepts'])
+    return stuff['outputs'][0]['data']['concepts']
     # for thing in stuff['outputs'][0]['data']['concepts']:
     #     print type(thing)
 
@@ -42,8 +42,10 @@ def get_video_stuff(user, video):
     videos = '../videos/' + user
     video = videos + '/' + video
 
+    _everything = []
     for img in os.listdir(upload):
-        print get_objects(SERVER_URL+initvid[:-4]+'/'+img)
+        _everything.append(get_objects(SERVER_URL+initvid[:-4]+'/'+img))
+    print(json.dumps(_everything))
 
 if __name__ == '__main__':
     os.chdir(os.path.abspath(os.path.dirname(__file__)))

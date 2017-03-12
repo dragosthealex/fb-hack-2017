@@ -60,9 +60,11 @@ class Video extends Model
         $res = [];
         $zero = (int)$this->frames()->orderBy('timestamp', 'ASC')->first()->timestamp;
         $previous = $zero;
+        $zero = $this->frames()->orderBy('timestamp', 'ASC')->get();
+        $zero = (int)$zero[1]->timestamp;
         foreach($this->frames()->orderBy('timestamp', 'ASC')->get() as $key => $frame) {
             $obj = [];
-            $obj["sec"] = (int)$frame["timestamp"] - $zero;
+            $obj["frame"] = (int)$frame["timestamp"] - $zero;
             $obj["view_count"] = (int)$frame["view_count"];
             $obj["like"] = 0;
             $obj["haha"] = 0;
@@ -80,25 +82,30 @@ class Video extends Model
             $tp = 0.0;
             $tneu = 0.0;
             $tneg = 0.0;
+            $tc = 0.0;
             foreach ($comms->get() as $key => $comm) {
                 $tp += $comm->positive;
                 $tneu += $comm->neutral;
                 $tneg += $comm->negative;
+                $tc += $comm->compound;
             }
             if($obj["comment_count"] > 0) {
                 $obj["positive"] = 100*$tp / (float)$obj["comment_count"];
                 $obj["neutral"] = 100*$tneu / (float)$obj["comment_count"];
                 $obj["negative"] = 100*$tneg / (float)$obj["comment_count"];
+                $obj["trend"] = $tc / (float)$obj["comment_count"];
             }
             else {
                 $obj["positive"] = 0;
                 $obj["neutral"] = 0;
                 $obj["negative"] = 0;
+                $obj["trend"] = 0;
             }
             array_push($res, $obj);
 
             $previous = $frame->timestamp;
         }
+        array_shift($res);
         return json_encode($res);
     }
 }

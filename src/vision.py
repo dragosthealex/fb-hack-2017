@@ -5,7 +5,7 @@ import os
 import subprocess
 
 
-SERVER_URL = 
+SERVER_URL = ''
 
 
 def get_objects(url):
@@ -22,10 +22,18 @@ def get_objects(url):
 
 
 # ffmpeg -i mov_bbb.mp4 -r 0.2 -f image2 image-%07d.png
-def ffmpeg(video):
+def ffmpeg(user, video):
     os.chdir(os.path.abspath(os.path.dirname(__file__)))
+
+    upload = '../dashboard/public/uploads/' + video[:-4] + '/'
+    videos = '../videos/' + user
+    video = videos + '/' + video
+
+    if not os.path.exists(upload):
+        os.makedirs(upload)
+
     subprocess.call(['/usr/local/bin/ffmpeg', '-i', video, '-r',
-                     '0.2', '-f', 'image2', 'imgs/image-%07d.png'])
+                     '0.2', '-f', 'image2', upload + 'image-%07d.png'])
 
 if __name__ == '__main__':
-    ffmpeg('mov_bbb.mp4')
+    ffmpeg("0", 'mov_bbb.mp4')

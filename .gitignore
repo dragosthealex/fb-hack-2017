@@ -2,7 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
+dashboard/app/Http/Controllers/ApiController.php
 # C extensions
 *.so
 
@@ -93,5 +93,7 @@ ENV/
 
 # CUSTOM
 src/.secret
+src/msapi.py
 
 .phpintel
+videos

@@ -13,9 +13,10 @@ class AddFBTokenFieldsToUsers extends Migration
      */
     public function up()
     {
+        Schema::defaultStringLength(191);
         Schema::table('users', function (Blueprint $table) {
-            $table->string('fb_token', 512)->unique();
-            $table->string('fb_id', 512)->unique();
+            $table->string('fb_token')->unique();
+            $table->string('fb_id')->unique();
         });
     }
 
@@ -26,6 +27,7 @@ class AddFBTokenFieldsToUsers extends Migration
      */
     public function down()
     {
+        Schema::defaultStringLength(191);
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('fb_token');
             $table->dropColumn('fb_id');

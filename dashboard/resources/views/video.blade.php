@@ -96,19 +96,6 @@ a.tab-button.active {
 </div>
 </div>
 <!-- /top tiles -->
-<?php
-
-// Make user dir if not exists
-        if(!is_dir('../../videos')) {
-            mkdir('../../videos');
-        }
-        if(!is_dir('../../videos/' . $user->id)) {
-            mkdir('../../videos/' . $user->id);
-        }
-        // Download video there
-        file_put_contents('../../videos/' . $user->id . '/' . $video->fb_id + '.mp4', file_get_contents($source));
-
-        ?>
 <div class="row">
 <div class="col-md-12 col-sm-12 col-xs-12">
   <div class="dashboard_graph">

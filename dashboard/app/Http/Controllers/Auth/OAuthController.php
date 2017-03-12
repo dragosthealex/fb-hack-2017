@@ -22,7 +22,7 @@ class OAuthController extends Controller {
     public function redirectToProvider($provider) {
         return Socialize::driver($provider)
                     ->fields(['first_name', 'last_name', 'email'])
-                    ->scopes(['user_videos'])
+                    ->scopes(['user_videos',  'message_deliveries', 'messages', 'messaging_optins', 'messaging_postbacks'])
                     ->redirect();
     }
 

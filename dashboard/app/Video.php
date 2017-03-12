@@ -46,7 +46,7 @@ class Video extends Model
     }
 
     public function get_avg_sentiment() {
-        if(!($c = count($this->comments()))) {
+        if(!($c = count($this->comments))) {
             return 'N/A';
         }
         $sum = 0;
@@ -54,5 +54,51 @@ class Video extends Model
             $sum += floatval($comm->score);
         }
         return $sum*100 / (float)$c;
+    }
+
+    public function get_info_by_frames() {
+        $res = [];
+        $zero = (int)$this->frames()->orderBy('timestamp', 'ASC')->first()->timestamp;
+        $previous = $zero;
+        foreach($this->frames()->orderBy('timestamp', 'ASC')->get() as $key => $frame) {
+            $obj = [];
+            $obj["sec"] = (int)$frame["timestamp"] - $zero;
+            $obj["view_count"] = (int)$frame["view_count"];
+            $obj["like"] = 0;
+            $obj["haha"] = 0;
+            $obj["wow"] = 0;
+            $obj["love"] = 0;
+            $obj["angry"] = 0;
+            $obj["sad"] = 0;
+            $reactions = json_decode($frame["reactions"], 1);
+            foreach($reactions as $r) {
+                $obj[strtolower($r["type"])]++;
+            }
+            $comms = $this->comments()->where('timestamp', '<=', $frame->timestamp)
+                                        ->where('timestamp', '>=', $previous);
+            $obj["comment_count"] = $comms->count();
+            $tp = 0.0;
+            $tneu = 0.0;
+            $tneg = 0.0;
+            foreach ($comms->get() as $key => $comm) {
+                $tp += $comm->positive;
+                $tneu += $comm->neutral;
+                $tneg += $comm->negative;
+            }
+            if($obj["comment_count"] > 0) {
+                $obj["positive"] = 100*$tp / (float)$obj["comment_count"];
+                $obj["neutral"] = 100*$tneu / (float)$obj["comment_count"];
+                $obj["negative"] = 100*$tneg / (float)$obj["comment_count"];
+            }
+            else {
+                $obj["positive"] = 0;
+                $obj["neutral"] = 0;
+                $obj["negative"] = 0;
+            }
+            array_push($res, $obj);
+
+            $previous = $frame->timestamp;
+        }
+        return json_encode($res);
     }
 }

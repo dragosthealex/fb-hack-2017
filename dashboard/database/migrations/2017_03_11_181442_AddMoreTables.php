@@ -27,7 +27,7 @@ class AddMoreTables extends Migration
         Schema::create('frames', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('video_id');
-            $table->string('timestamp');
+            $table->bigInteger('timestamp');
             $table->integer('view_count');
             $table->longtext('reactions');
             $table->string('block_id');
@@ -37,7 +37,7 @@ class AddMoreTables extends Migration
             $table->increments('id');
             $table->string('fb_id');
             $table->unsignedInteger('video_id');
-            $table->string('timestamp');
+            $table->bigInteger('timestamp');
             $table->string('user_fb_id');
             $table->string('user_fb_name');
             $table->longtext('message');

@@ -15,11 +15,11 @@ class AddSentimentAnalysisComments extends Migration
     {
         Schema::table('comments', function (Blueprint $table) {
             $table->longtext('keywords')->nullable();
-            $table->string('score')->nullable();
-            $table->string('negative')->nullable();
-            $table->string('neutral')->nullable();
-            $table->string('positive')->nullable();
-            $table->string('compound')->nullable();
+            $table->float('score')->nullable();
+            $table->float('negative')->nullable();
+            $table->float('neutral')->nullable();
+            $table->float('positive')->nullable();
+            $table->float('compound')->nullable();
         });
     }
 

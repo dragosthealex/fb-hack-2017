@@ -100,131 +100,6 @@ a.tab-button.active {
   @endif
 </div>
 </div>
-<!-- /top tiles -->
-<div class="row">
-<div class="col-md-12 col-sm-12 col-xs-12">
-  <div class="dashboard_graph">
-    <div class="col-md-9 col-sm-9 col-xs-12">
-      <div id="plot-attention" class="demo-placeholder"></div>
-    </div>
-    <div class="col-md-3 col-sm-3 col-xs-12 bg-white">
-      <div class="x_title">
-        <h2>Attention</h2>
-        <div class="clearfix"></div>
-      </div>
-      <div class="col-md-12 col-sm-12 col-xs-6">
-        <div>
-          <p>Average Attention</p>
-          <div class="">
-            <div class="progress progress_sm">
-              <div id="attention-bar-avg" class="progress-bar attention" role="progressbar"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="clearfix"></div>
-  </div>
-</div>
-</div>
-<br>
-<div class="row">
-<div class="col-md-12 col-sm-12 col-xs-12">
-  <div class="dashboard_graph">
-    <div class="col-md-9 col-sm-9 col-xs-12">
-      <div id="plot-chart" class="demo-placeholder"></div>
-    </div>
-    <div class="col-md-3 col-sm-3 col-xs-12 bg-white">
-      <div class="x_title">
-        <h2>Average Sentiments</h2>
-        <div class="clearfix"></div>
-      </div>
-      <div class="col-md-12 col-sm-12 col-xs-6">
-        <div>
-          <p>Happiness <span class="happiness-percent"></span></p>
-          <div class="">
-            <div class="progress progress_sm">
-              <div id="happiness-bar" class="progress-bar happiness" role="progressbar"  ></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-12 col-sm-12 col-xs-6">
-        <div>
-          <p>Neutral <span class="neutral-percent"></span></p>
-          <div class="">
-            <div class="progress progress_sm">
-              <div id="neutral-bar" class="progress-bar neutral" role="progressbar"  ></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-12 col-sm-12 col-xs-6">
-        <div>
-          <p>Contempt <span class="contempt-percent"></span></p>
-          <div class="">
-            <div class="progress progress_sm">
-              <div id="contempt-bar" class="progress-bar contempt" role="progressbar"  ></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-12 col-sm-12 col-xs-6">
-        <div>
-          <p>Disgust <span class="disgust-percent"></span></p>
-          <div class="">
-            <div class="progress progress_sm">
-              <div id="disgust-bar" class="progress-bar disgust" role="progressbar"  ></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-12 col-sm-12 col-xs-6">
-        <div>
-          <p>Anger <span class="anger-percent"></span></p>
-          <div class="">
-            <div class="progress progress_sm">
-              <div id="anger-bar" class="progress-bar anger" role="progressbar"  ></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-12 col-sm-12 col-xs-6">
-        <div>
-          <p>Surprise <span class="surprise-percent"></span></p>
-          <div class="">
-            <div class="progress progress_sm">
-              <div id="surprise-bar" class="progress-bar surprise" role="progressbar"  ></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-12 col-sm-12 col-xs-6">
-        <div>
-          <p>Fear <span class="fear-percent"></span></p>
-          <div class="">
-            <div class="progress progress_sm">
-              <div id="fear-bar" class="progress-bar fear" role="progressbar"  ></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-12 col-sm-12 col-xs-6">
-        <div>
-          <p>Sadness <span class="sadness-percent"></span></p>
-          <div class="">
-            <div class="progress progress_sm">
-              <div id="sadness-bar" class="progress-bar sadness" role="progressbar"  ></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="clearfix"></div>
-  </div>
-</div>
-</div>
-<br>
 <div class="row">
 <div class="col-md-12 col-sm-12 col-xs-12">
   <div class="dashboard_graph">
@@ -233,42 +108,54 @@ a.tab-button.active {
           id="video"
           class="video-active"
           width="100%"
-          style="display:block;width:100%"
+          style="display:block;width:100%;max-height: 500px"
           controls="controls">
           <source src="<?=$video->url?>" type="video/mp4">
       </video>
     </div>
-    <div class="tab-bar">
+    <div class="tab-bar master">
       <ul class="plot-tabs">
-        <li><a class="tab-button active" data-tab="attention">Attention</a></li>
-        <li><a class="tab-button" data-tab="happiness">Happiness</a></li>
-        <li><a class="tab-button" data-tab="sadness">Sadness</a></li>
-        <li><a class="tab-button" data-tab="anger">Anger</a></li>
-        <li><a class="tab-button" data-tab="surprise">Surprise</a></li>
-        <li><a class="tab-button" data-tab="fear">Fear</a></li>
-        <li><a class="tab-button" data-tab="contempt">Contempt</a></li>
-        <li><a class="tab-button" data-tab="disgust">Disgust</a></li>
-        <li><a class="tab-button" data-tab="neutral">Neutral</a></li>
+        <li><a class="tab-button active" data-tab="views">Views</a></li>
+        <li><a class="tab-button" data-tab="reactions">Reactions</a></li>
+        <li><a class="tab-button" data-tab="comments">Comments</a></li>
       </ul>
     </div>
-    <div id="plot-video-attention" class="video-placeholder demo-placeholder"></div>
-    <div id="plot-video-happiness" class="video-placeholder demo-placeholder"></div>
-    <div id="plot-video-sadness" class="video-placeholder demo-placeholder"></div>
-    <div id="plot-video-anger" class="video-placeholder demo-placeholder"></div>
-    <div id="plot-video-surprise" class="video-placeholder demo-placeholder"></div>
-    <div id="plot-video-fear" class="video-placeholder demo-placeholder"></div>
-    <div id="plot-video-contempt" class="video-placeholder demo-placeholder"></div>
-    <div id="plot-video-disgust" class="video-placeholder demo-placeholder"></div>
+    <div class="tab-bar sub-tabs views">
+      <ul class="plot-tabs">
+        <li><a class="tab-button active">View Count</a></li>
+      </ul>
+    </div>
+    <div class="tab-bar sub-tabs reactions hidden">
+      <ul class="plot-tabs">
+        <li><a class="tab-button active">Like</a></li>
+        <li><a class="tab-button">Wow</a></li>
+        <li><a class="tab-button">Love</a></li>
+        <li><a class="tab-button">Haha</a></li>
+        <li><a class="tab-button">Sad</a></li>
+        <li><a class="tab-button">Angry</a></li>
+      </ul>
+    </div>
+    <div class="tab-bar sub-tabs comments hidden">
+      <ul class="plot-tabs">
+        <li><a class="tab-button active">Comment Count</a></li>
+        <li><a class="tab-button">Positive</a></li>
+        <li><a class="tab-button">Negative</a></li>
+        <li><a class="tab-button">Neutral</a></li>
+        <li><a class="tab-button">Trend</a></li>
+      </ul>
+    </div>
+    <div id="plot-video-view_count" class="video-placeholder demo-placeholder"></div>
+    <div id="plot-video-like" class="video-placeholder demo-placeholder"></div>
+    <div id="plot-video-wow" class="video-placeholder demo-placeholder"></div>
+    <div id="plot-video-love" class="video-placeholder demo-placeholder"></div>
+    <div id="plot-video-haha" class="video-placeholder demo-placeholder"></div>
+    <div id="plot-video-sad" class="video-placeholder demo-placeholder"></div>
+    <div id="plot-video-angry" class="video-placeholder demo-placeholder"></div>
+    <div id="plot-video-comment_count" class="video-placeholder demo-placeholder"></div>
+    <div id="plot-video-positive" class="video-placeholder demo-placeholder"></div>
+    <div id="plot-video-negative" class="video-placeholder demo-placeholder"></div>
     <div id="plot-video-neutral" class="video-placeholder demo-placeholder"></div>
-    <br>
-    <div class="x_title">
-      <h2>Key Phrases</h2>
-      <div class="clearfix"></div>
-    </div>
-    <div class="x_content">
-      <p id="keyphrases">ugi pula in cur</p>
-      <div class="clearfix"></div>
-    </div>
+    <div id="plot-video-trend" class="video-placeholder demo-placeholder"></div>
   </div>
 </div>
 </div>
@@ -276,5 +163,48 @@ a.tab-button.active {
 @endsection
 
 @section('post-scripts')
+<script type="text/javascript">
+var theVideoPlots = {
+    "view_count": {},
+    "like": {},
+    "wow": {},
+    "love": {},
+    "haha": {},
+    "sad": {},
+    "angry": {},
+    "comment_count": {},
+    "positive": {},
+    "negative": {},
+    "neutral": {},
+    "trend": {},
+  };
+$(document).ready(function() {
+  $(".tab-bar.master .tab-button").click(function() {
+    $(".tab-bar.sub-tabs").addClass('hidden');
+    $(".tab-bar.sub-tabs." + $(this).attr("data-tab")).removeClass("hidden");
+    $(".tab-bar.master .tab-button").removeClass("active");
+    $(this).addClass("active");
+  });
+  var processData = function() {
+    var a = <?=$video->get_info_by_frames()?>;
+    console.log(a);
+    console.log("sdsd");
+    var graphData = {
+      "view_count": [],
+      "like": [],
+      "wow": [],
+      "love": [],
+      "haha": [],
+      "sad": [],
+      "angry": [],
+      "comment_count": [],
+      "positive": [],
+      "negative": [],
+      "neutral": [],
+      "trend": [],
+    };
+  };
 
+});
+</script>
 @endsection

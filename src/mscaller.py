@@ -1,7 +1,6 @@
 import os
 import sys
 import json
-import msapi
 import hashlib
 import requests
 
@@ -12,14 +11,14 @@ URL = 'https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/'
 
 
 def get_header():
-    return {'Ocp-Apim-Subscription-Key': msapi.API_KEY,
+    return {'Ocp-Apim-Subscription-Key': 'd6126b84a6754464b7574af30f1ea959',
             'Content-Type': 'application/json',
             'Accept': 'application/json'}
 
 
 def get_comments(video_id):
     file = hashlib.sha256(str(video_id).encode('utf-8')).hexdigest()
-    path = os.path.dirname(__file__) + './data/'
+    path = os.path.abspath(os.path.dirname(__file__)) + '/data/'
     with open(path+file, 'r') as inputfile:
         data = json.load(inputfile)
 

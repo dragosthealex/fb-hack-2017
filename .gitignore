@@ -95,3 +95,4 @@ ENV/
 
 .phpintel
 videos
+!videos/0

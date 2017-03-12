@@ -50,4 +50,4 @@ def get_video_stuff(user, video):
 if __name__ == '__main__':
     os.chdir(os.path.abspath(os.path.dirname(__file__)))
 
-    get_video_stuff("1", '1291947270882217.mp4')
+    get_video_stuff("0", 'mov_bbb.mp4')

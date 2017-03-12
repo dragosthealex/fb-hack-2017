@@ -67,7 +67,6 @@ class Facebook(object):
     # Returns the latest LIVE video id from the token argv
     def get_video_id(self):
         _response = self.get('me/live_videos', '?fields=id&limit=1')
-        print(_response)
         return str(_response['data'][0]['id'])
 
     # Returns a dictionary containing all block related data

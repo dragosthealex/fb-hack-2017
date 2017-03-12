@@ -93,4 +93,3 @@ if __name__ == '__main__':
                       'vader': documents_v[i][1]})
 
     print(json.dumps(final))
-

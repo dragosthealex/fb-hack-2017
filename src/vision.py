@@ -5,6 +5,9 @@ import os
 import subprocess
 
 
+SERVER_URL = 
+
+
 def get_objects(url):
 
     app = ClarifaiApp("zcUWsOjpJC_dJqtKW_6mE-iGG9dYja-W4yF_YMH2",

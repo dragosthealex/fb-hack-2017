@@ -17,7 +17,7 @@
 <div class="row">
     <h1 class="dash-title">Dashboard</h1>
     <div class="col-md-10 col-md-offset-1 padded">
-        <a href="{{ url('/hooks/live-video/test') }}" class="btn btn-large btn-primary">Start Live</a>
+        <a href="{{ url('/hooks/live-video/test') }}" onclick="alert('go Live on Facebook!')" class="btn btn-large btn-primary">Start Live</a>
         <hr>
         <h3>Videos</h3>
         <table class="table-striped table-responsive datatables">

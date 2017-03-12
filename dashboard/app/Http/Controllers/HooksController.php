@@ -22,14 +22,24 @@ class HooksController extends Controller
         $cmd = "python ../../src/listner.py " . $token;
         $parsed = json_decode(shell_exec($cmd), 1);
 
-        if(count($parsed["blockchain"]) == 0) {
-            die("sugi cucu");
+        $error = 0;
+        while(count($parsed["blockchain"]) == 0) {
+            sleep(2);
+            $error ++;
+            $parsed = json_decode(shell_exec($cmd), 1);
+            if($error == 30) {
+                echo "There was an error. Please make sure you are live-streaming from Facebook.";
+                echo "<br>";
+                echo "Go <a href='" . url('/') . "'>back</a> and try again.";
+                exit();
+            }
         }
 
         $video = new Video();
         $video->user_id = $user->id;
         $video->fb_id = $parsed["video_id"];
         $video->description = $parsed["description"];
+        $video->start_timestamp = $parsed["creation"];
         $video->save();
 
         foreach($parsed["blockchain"] as $block) {
